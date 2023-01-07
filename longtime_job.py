@@ -33,19 +33,19 @@ if response.status_code == 200:
         #  разбираем ответ сервера
         json_text2 = response2.text
         obj2 = json.loads(json_text2)
-        # убеждаемсяся в правильности поля status и наличии поля result
+        # убеждаемся в правильности поля status и наличии поля result
         if obj2['status'] == "Job is ready":
             print(f"status = {obj2['status']}")
             print(f"result = {obj2['result']}")
         else:
             print("Что-то пошло не так ...")
             print(f"response2.status_code = {response2.status_code}")
-            print(f"Отверт сервера - {response2.text}")
+            print(f"Ответ сервера - {response2.text}")
     else:
         print("Что-то пошло не так ...")
         print(f"response1.status_code = {response1.status_code}")
-        print(f"Отверт сервера - {response1.text}")
+        print(f"Ответ сервера - {response1.text}")
 else:
     print("Что-то пошло не так ...")
     print(f"response.status_code = {response.status_code}")
-    print(f"Отверт сервера - {response.text}")
+    print(f"Ответ сервера - {response.text}")
