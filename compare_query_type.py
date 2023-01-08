@@ -35,11 +35,10 @@ print()
 # Найти такое сочетание, когда реальный тип запроса не совпадает со значением параметра, но сервер отвечает так,
 # словно все ок. Или же наоборот, когда типы совпадают, но сервер считает, что это не так.
 
-reqParams = ['GET', 'POST', 'PUT', 'DELETE', 'HEAD', 'PATCH', 'TRACE', 'CONNECT', 'OPTIONS']
+reqParams = ["GET", "POST", "PUT", "DELETE", "HEAD", "PATCH", "TRACE", "CONNECT", "OPTIONS"]
 print(f"4 Для всех теоретически возможных типов запроса: {reqParams}")
 
 URL = "https://playground.learnqa.ru/ajax/api/compare_query_type"
-s = '{"method": "METHOD"}'
 
 
 def checkresponse(a, b, c, d):
@@ -60,7 +59,7 @@ reqType = "GET"
 j = 1
 print(f"{reqType}")
 for i in range(9):
-    payload = s.replace("METHOD", reqParams[i])
+    payload = {"method": reqParams[i]}
     # print(payload)
     response = requests.get(URL, params=payload)
     checkresponse(reqType, reqParams[i], response.text, j)
@@ -70,7 +69,7 @@ reqType = "POST"
 j = 2
 print(f"{reqType}")
 for i in range(9):
-    payload = s.replace("METHOD", reqParams[i])
+    payload = {"method": reqParams[i]}
     response = requests.post(URL, data=payload)
     checkresponse(reqType, reqParams[i], response.text, j)
 print()
@@ -79,7 +78,7 @@ reqType = "PUT"
 j = 3
 print(f"{reqType}")
 for i in range(9):
-    payload = s.replace("METHOD", reqParams[i])
+    payload = {"method": reqParams[i]}
     response = requests.put(URL, data=payload)
     checkresponse(reqType, reqParams[i], response.text, j)
 print()
@@ -88,7 +87,7 @@ reqType = "DELETE"
 j = 4
 print(f"{reqType}")
 for i in range(9):
-    payload = s.replace("METHOD", reqParams[i])
+    payload = {"method": reqParams[i]}
     response = requests.delete(URL, data=payload)
     checkresponse(reqType, reqParams[i], response.text, j)
 print()
@@ -97,7 +96,7 @@ reqType = "HEAD"
 j = 5
 print(f"{reqType}")
 for i in range(9):
-    payload = s.replace("METHOD", reqParams[i])
+    payload = {"method": reqParams[i]}
     response = requests.head(URL, data=payload)
     checkresponse(reqType, reqParams[i], response.text, j)
 print()
@@ -106,7 +105,7 @@ reqType = "PATCH"
 j = 6
 print(f"{reqType}")
 for i in range(9):
-    payload = s.replace("METHOD", reqParams[i])
+    payload = {"method": reqParams[i]}
     response = requests.patch(URL, data=payload)
     checkresponse(reqType, reqParams[i], response.text, j)
 print()
@@ -135,7 +134,7 @@ reqType = "OPTIONS"
 j = 9
 print(f"{reqType}")
 for i in range(9):
-    payload = s.replace("METHOD", reqParams[i])
+    payload = {"method": reqParams[i]}
     response = requests.options(URL, data=payload)
     checkresponse(reqType, reqParams[i], response.text, j)
 print()
