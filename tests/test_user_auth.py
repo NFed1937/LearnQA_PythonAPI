@@ -11,13 +11,12 @@ class TestUserAuth(BaseCase):
         ("no_token")
     ]
 
-    def setup(self):
+    def setup_method(self):
         data = {
             'email': 'vinkotov@example.com',
             'password': '1234'
         }
 
-        # response1 = requests.post("https://playground.learnqa.ru/ajax/api/user/login", data=data)
         response1 = MyRequests.post("/user/login", data=data)
 
         self.auth_sid = self.get_cookie(response1, "auth_sid")
