@@ -45,7 +45,6 @@ class TestUserEditNegative(BaseCase):
 
         # EDIT
         new_name = "Changed Name"
-        # print(f"new_user_id - '{self.new_user_id}'")
 
         response2 = MyRequests.put(
             f"/user/{self.new_user_id}",
