@@ -3,7 +3,6 @@ from lib.base_case import BaseCase
 from lib.assertions import Assertions
 
 
-# Delete
 class TestUserDelete(BaseCase):
     # Первый - на попытку удалить пользователя по ID 2
     def test_delete_user_2(self):
@@ -23,7 +22,7 @@ class TestUserDelete(BaseCase):
             "/user/2",
             headers={"x-csrf-token": token},
             cookies={"auth_sid": auth_sid}
-            )
+        )
 
         Assertions.assert_code_status(response2, 400)
         Assertions.assert_response_content(response2, "Please, do not delete test users with ID 1, 2, 3, 4 or 5.")
@@ -119,4 +118,3 @@ class TestUserDelete(BaseCase):
 # python -m pytest -s tests/test_user_delete.py -k test_delete_user_2
 # python -m pytest -s tests/test_user_delete.py -k test_delete_user_auth_as_same_user
 # python -m pytest -s tests/test_user_delete.py -k test_delete_user_auth_as_another_user
-
