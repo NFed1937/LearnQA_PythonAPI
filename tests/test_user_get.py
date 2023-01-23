@@ -34,7 +34,8 @@ class TestUserGet(BaseCase):
         Assertions.assert_json_has_keys(response2, expected_fields)
 
     # Tест, который авторизовывается одним пользователем, но получает данные другого (т.е. с другим ID).
-    # И убедиться, что в этом случае запрос также получает только username, так как мы не должны видеть остальные данные чужого пользователя.
+    # И убедиться, что в этом случае запрос также получает только username, так как мы не должны видеть
+    # остальные данные чужого пользователя.
     def test_get_user_details_auth_as_another_user(self):
         # REGISTER
         register_data = self.prepare_registration_data()
@@ -67,8 +68,6 @@ class TestUserGet(BaseCase):
         Assertions.assert_json_has_not_key(response3, "email")
         Assertions.assert_json_has_not_key(response3, "firstName")
         Assertions.assert_json_has_not_key(response3, "lastName")
-
-        # print(response3.content)
 
 # python -m pytest -s tests/test_user_get.py
 # python -m pytest -s tests/test_user_get.py -k test_get_user_details_auth_as_same_user
