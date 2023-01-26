@@ -30,6 +30,32 @@ class TestUserEditNegative(BaseCase):
         Assertions.assert_code_status(response1, 400)
         Assertions.assert_response_content(response1, "Auth token not supplied")
 
+        # LOGIN
+        login_data = {
+            'email': self.new_email,
+            'password': self.new_password
+        }
+
+        response2 = MyRequests.post("/user/login", data=login_data)
+
+        auth_sid = self.get_cookie(response2, "auth_sid")
+        token = self.get_header(response2, "x-csrf-token")
+
+        # GET
+        response3 = MyRequests.get(
+            f"/user/{self.new_user_id}",
+            headers={"x-csrf-token": token},
+            cookies={"auth_sid": auth_sid}
+        )
+
+        Assertions.assert_code_status(response3, 200)
+        Assertions.assert_json_value_by_name(
+            response3,
+            "firstName",
+            self.new_first_name,  # имя клиента не изменилось
+            "First name of the user is not equal the name after registration"
+        )
+
     # - Попытаемся изменить данные пользователя, будучи авторизованными другим пользователем
     def test_edit_user_auth_as_another_user(self):
         # LOGIN
@@ -55,6 +81,32 @@ class TestUserEditNegative(BaseCase):
 
         Assertions.assert_code_status(response2, 400)
         Assertions.assert_response_content(response2, "Please, do not edit test users with ID 1, 2, 3, 4 or 5.")
+
+        # LOGIN
+        login_data = {
+            'email': self.new_email,
+            'password': self.new_password
+        }
+
+        response3 = MyRequests.post("/user/login", data=login_data)
+
+        auth_sid = self.get_cookie(response3, "auth_sid")
+        token = self.get_header(response3, "x-csrf-token")
+
+        # GET
+        response4 = MyRequests.get(
+            f"/user/{self.new_user_id}",
+            headers={"x-csrf-token": token},
+            cookies={"auth_sid": auth_sid}
+        )
+
+        Assertions.assert_code_status(response4, 200)
+        Assertions.assert_json_value_by_name(
+            response4,
+            "firstName",
+            self.new_first_name,  # имя клиента не изменилось
+            "First name of the user is not equal the name after registration"
+        )
 
     # - Попытаемся изменить email пользователя, будучи авторизованными тем же пользователем,
     # на новый email без символа @
@@ -82,6 +134,21 @@ class TestUserEditNegative(BaseCase):
 
         Assertions.assert_code_status(response2, 400)
         Assertions.assert_response_content(response2, "Invalid email format")
+
+        # GET
+        response3 = MyRequests.get(
+            f"/user/{self.new_user_id}",
+            headers={"x-csrf-token": token},
+            cookies={"auth_sid": auth_sid}
+        )
+
+        Assertions.assert_code_status(response3, 200)
+        Assertions.assert_json_value_by_name(
+            response3,
+            "email",
+            self.new_email,  # email клиента не изменился
+            "Email of the user is not equal the email after registration"
+        )
 
     # - Попытаемся изменить firstName пользователя, будучи авторизованными тем же пользователем,
     # на очень короткое значение в один символ
@@ -118,6 +185,21 @@ class TestUserEditNegative(BaseCase):
             "error",
             expected_error,
             "Unexpected error text!"
+        )
+
+        # GET
+        response3 = MyRequests.get(
+            f"/user/{self.new_user_id}",
+            headers={"x-csrf-token": token},
+            cookies={"auth_sid": auth_sid}
+        )
+
+        Assertions.assert_code_status(response3, 200)
+        Assertions.assert_json_value_by_name(
+            response3,
+            "firstName",
+            self.new_first_name,  # имя клиента не изменилось
+            "First name of the user is not equal the name after registration"
         )
 
 # python -m pytest -s tests/test_user_edit_negative.py
