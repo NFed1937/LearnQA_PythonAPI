@@ -1,8 +1,10 @@
 from lib.my_requests import MyRequests
 from lib.base_case import BaseCase
 from lib.assertions import Assertions
+import allure
 
 
+@allure.epic("Negative edit cases")
 class TestUserEditNegative(BaseCase):
     def setup_method(self):
         # REGISTER
@@ -18,6 +20,7 @@ class TestUserEditNegative(BaseCase):
         self.new_user_id = self.get_json_value(response1, "id")
 
     # - Попытаемся изменить данные пользователя, будучи неавторизованными
+    @allure.description("This test try to change first name of just created user w/o authorization")
     def test_edit_user_not_auth(self):
         # EDIT
         new_name = "Changed Name"
@@ -57,6 +60,7 @@ class TestUserEditNegative(BaseCase):
         )
 
     # - Попытаемся изменить данные пользователя, будучи авторизованными другим пользователем
+    @allure.description("This test try to change first name of just created user, being authorized as another user")
     def test_edit_user_auth_as_another_user(self):
         # LOGIN
         login_data = {
@@ -110,6 +114,7 @@ class TestUserEditNegative(BaseCase):
 
     # - Попытаемся изменить email пользователя, будучи авторизованными тем же пользователем,
     # на новый email без символа @
+    @allure.description("This test try to change email of just created user to new one without @")
     def test_edit_user_auth_bad_email(self):
         # LOGIN
         login_data = {
@@ -152,6 +157,7 @@ class TestUserEditNegative(BaseCase):
 
     # - Попытаемся изменить firstName пользователя, будучи авторизованными тем же пользователем,
     # на очень короткое значение в один символ
+    @allure.description("This test try to change first name of just created user to new name 1 character long")
     def test_edit_user_auth_too_short_name(self):
         # LOGIN
         login_data = {

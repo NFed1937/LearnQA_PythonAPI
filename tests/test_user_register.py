@@ -1,10 +1,11 @@
 import pytest
-
 from lib.my_requests import MyRequests
 from lib.base_case import BaseCase
 from lib.assertions import Assertions
+import allure
 
 
+@allure.epic("Registration cases")
 class TestUserRegister(BaseCase):
     exclude_fields = [
         ("password"),
@@ -14,6 +15,7 @@ class TestUserRegister(BaseCase):
         ("email")
     ]
 
+    @allure.description("This test successfully creates a user with a unique email address")
     def test_create_user_successfully(self):
         data = self.prepare_registration_data()
 
@@ -22,6 +24,7 @@ class TestUserRegister(BaseCase):
         Assertions.assert_code_status(response, 200)
         Assertions.assert_json_has_key(response, "id")
 
+    @allure.description("This test tries to create a user with existing email address (negative)")
     def test_create_user_with_existing_email(self):
         email = 'vinkotov@example.com'
         data = self.prepare_registration_data(email)
@@ -33,6 +36,7 @@ class TestUserRegister(BaseCase):
             f"Unexpected response content {response.content}"
 
     # Создание пользователя с некорректным email - без символа @
+    @allure.description("This test tries to create a user with incorrect email address without @ (negative)")
     def test_create_user_incorrect_email(self):
         email = 'vinkotovexample.com'
         data = self.prepare_registration_data(email)
@@ -44,6 +48,7 @@ class TestUserRegister(BaseCase):
 
     # Создание пользователя без указания одного из полей - с помощью @parametrize
     # необходимо проверить, что отсутствие любого параметра не дает зарегистрировать пользователя
+    @allure.description("This test tries to create a user without required fields (negative)")
     @pytest.mark.parametrize('field_name', exclude_fields)
     def test_create_user_negative(self, field_name):
         data = self.prepare_registration_data()
@@ -56,6 +61,7 @@ class TestUserRegister(BaseCase):
         Assertions.assert_response_content(response, f"The following required params are missed: {field_name}")
 
     # Создание пользователя с очень коротким именем в один символ
+    @allure.description("This test tries to create a user with first name 1 character long (negative)")
     def test_create_user_too_short_name(self):
         firstname = 'a'
         data = self.prepare_registration_data()
@@ -67,6 +73,7 @@ class TestUserRegister(BaseCase):
         Assertions.assert_response_content(response, r"The value of 'firstName' field is too short")
 
     # Создание пользователя с очень длинным именем - длиннее 250 символов
+    @allure.description("This test tries to create a user with first name 300 characters long (negative)")
     def test_create_user_too_long_name(self):
         firstname = '1234567890'*30
         data = self.prepare_registration_data()
