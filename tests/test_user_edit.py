@@ -7,6 +7,7 @@ import allure
 @allure.epic("Positive edit cases")
 class TestUserEdit(BaseCase):
     @allure.description("This test successfully changing first name of just created user")
+    @allure.severity(allure.severity_level.CRITICAL)
     def test_edit_just_created_user(self):
         # REGISTER
         register_data = self.prepare_registration_data()

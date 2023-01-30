@@ -3,10 +3,12 @@ from lib.base_case import BaseCase
 from lib.assertions import Assertions
 import allure
 
+
 @allure.epic("Delete cases")
 class TestUserDelete(BaseCase):
     # Первый - на попытку удалить пользователя по ID 2
     @allure.description("This test tries to delete user with ID 2 (negative)")
+    @allure.severity(allure.severity_level.CRITICAL)
     def test_delete_user_2(self):
         # LOGIN
         login_data = {
@@ -32,6 +34,7 @@ class TestUserDelete(BaseCase):
     # Второй - позитивный. Создать пользователя, авторизоваться из-под него, удалить, затем попробовать получить
     # его данные по ID и убедиться, что пользователь действительно удален.
     @allure.description("This test successfully deletes just created user")
+    @allure.severity(allure.severity_level.CRITICAL)
     def test_delete_user_auth_as_same_user(self):
         # REGISTER
         register_data = self.prepare_registration_data()
@@ -75,6 +78,7 @@ class TestUserDelete(BaseCase):
 
     # Третий - негативный, попробовать удалить пользователя, будучи авторизованными другим пользователем.
     @allure.description("This test tries to delete just created user, being authorized as another user (negative)")
+    @allure.severity(allure.severity_level.CRITICAL)
     def test_delete_user_auth_as_another_user(self):
         # REGISTER
         register_data = self.prepare_registration_data()

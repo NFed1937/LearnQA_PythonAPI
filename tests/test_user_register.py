@@ -16,6 +16,7 @@ class TestUserRegister(BaseCase):
     ]
 
     @allure.description("This test successfully creates a user with a unique email address")
+    @allure.severity(allure.severity_level.BLOCKER)
     def test_create_user_successfully(self):
         data = self.prepare_registration_data()
 
@@ -25,6 +26,7 @@ class TestUserRegister(BaseCase):
         Assertions.assert_json_has_key(response, "id")
 
     @allure.description("This test tries to create a user with existing email address (negative)")
+    @allure.severity(allure.severity_level.CRITICAL)
     def test_create_user_with_existing_email(self):
         email = 'vinkotov@example.com'
         data = self.prepare_registration_data(email)
@@ -37,6 +39,7 @@ class TestUserRegister(BaseCase):
 
     # Создание пользователя с некорректным email - без символа @
     @allure.description("This test tries to create a user with incorrect email address without @ (negative)")
+    @allure.severity(allure.severity_level.NORMAL)
     def test_create_user_incorrect_email(self):
         email = 'vinkotovexample.com'
         data = self.prepare_registration_data(email)
@@ -49,6 +52,7 @@ class TestUserRegister(BaseCase):
     # Создание пользователя без указания одного из полей - с помощью @parametrize
     # необходимо проверить, что отсутствие любого параметра не дает зарегистрировать пользователя
     @allure.description("This test tries to create a user without required fields (negative)")
+    @allure.severity(allure.severity_level.CRITICAL)
     @pytest.mark.parametrize('field_name', exclude_fields)
     def test_create_user_negative(self, field_name):
         data = self.prepare_registration_data()
@@ -62,6 +66,7 @@ class TestUserRegister(BaseCase):
 
     # Создание пользователя с очень коротким именем в один символ
     @allure.description("This test tries to create a user with first name 1 character long (negative)")
+    @allure.severity(allure.severity_level.NORMAL)
     def test_create_user_too_short_name(self):
         firstname = 'a'
         data = self.prepare_registration_data()
@@ -74,6 +79,7 @@ class TestUserRegister(BaseCase):
 
     # Создание пользователя с очень длинным именем - длиннее 250 символов
     @allure.description("This test tries to create a user with first name 300 characters long (negative)")
+    @allure.severity(allure.severity_level.NORMAL)
     def test_create_user_too_long_name(self):
         firstname = '1234567890'*30
         data = self.prepare_registration_data()

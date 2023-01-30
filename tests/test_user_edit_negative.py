@@ -21,6 +21,7 @@ class TestUserEditNegative(BaseCase):
 
     # - Попытаемся изменить данные пользователя, будучи неавторизованными
     @allure.description("This test try to change first name of just created user w/o authorization")
+    @allure.severity(allure.severity_level.CRITICAL)
     def test_edit_user_not_auth(self):
         # EDIT
         new_name = "Changed Name"
@@ -61,6 +62,7 @@ class TestUserEditNegative(BaseCase):
 
     # - Попытаемся изменить данные пользователя, будучи авторизованными другим пользователем
     @allure.description("This test try to change first name of just created user, being authorized as another user")
+    @allure.severity(allure.severity_level.CRITICAL)
     def test_edit_user_auth_as_another_user(self):
         # LOGIN
         login_data = {
@@ -115,6 +117,7 @@ class TestUserEditNegative(BaseCase):
     # - Попытаемся изменить email пользователя, будучи авторизованными тем же пользователем,
     # на новый email без символа @
     @allure.description("This test try to change email of just created user to new one without @")
+    @allure.severity(allure.severity_level.NORMAL)
     def test_edit_user_auth_bad_email(self):
         # LOGIN
         login_data = {
@@ -158,6 +161,7 @@ class TestUserEditNegative(BaseCase):
     # - Попытаемся изменить firstName пользователя, будучи авторизованными тем же пользователем,
     # на очень короткое значение в один символ
     @allure.description("This test try to change first name of just created user to new name 1 character long")
+    @allure.severity(allure.severity_level.NORMAL)
     def test_edit_user_auth_too_short_name(self):
         # LOGIN
         login_data = {
